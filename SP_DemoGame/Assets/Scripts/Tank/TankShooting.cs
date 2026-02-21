@@ -20,9 +20,10 @@ namespace Complete
         //private string m_FireButton;                // The input axis that is used for launching shells.
         private float m_CurrentLaunchForce;         // The force that will be given to the shell when the fire button is released.
         private float m_ChargeSpeed;                // How fast the launch force increases, based on the max charge time.
-        //private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
+        private bool m_Fired;                       // Whether or not the shell has been launched with this button press.
 
         //private bl_Joystick joystick;
+        public SP_Listener spListener;
 
         private void OnEnable()
         {
@@ -77,8 +78,22 @@ namespace Complete
             //}
             //// Otherwise, if the fire button is released and the shell hasn't been launched yet...
             //else 
-            if (false)// && !m_Fired)
+            PlayerDatagram? spPlayer = spListener.GetPlayerInfo(m_PlayerNumber);
+            if (spPlayer == null)
             {
+                return;
+            }
+            bool didFire = spPlayer.Value.GetBool(0) || spPlayer.Value.GetBool(1) || spPlayer.Value.GetBool(2) || spPlayer.Value.GetBool(3);
+            if ( m_Fired )
+            {
+                if (!didFire)
+                {
+                    m_Fired = false;
+                }
+            }
+            else if (didFire)// && !m_Fired)
+            {
+                m_Fired = true;
                 // ... launch the shell.
                 m_CurrentLaunchForce = m_MinLaunchForce;
                 Fire ();

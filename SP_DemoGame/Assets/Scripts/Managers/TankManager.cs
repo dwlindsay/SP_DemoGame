@@ -24,12 +24,16 @@ namespace Complete
         private GameObject m_CanvasGameObject;                  // Used to disable the world space UI during the Starting and Ending phases of each round.
 
 
-        public void Setup ()
+        public void Setup (SP_Listener spListener)
         {
             // Get references to the components.
             m_Movement = m_Instance.GetComponent<TankMovement> ();
             m_Shooting = m_Instance.GetComponent<TankShooting> ();
             m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas> ().gameObject;
+
+            // pass along spListener
+            m_Movement.spListener = spListener;
+            m_Shooting.spListener = spListener;
 
             // Set the player numbers to be consistent across the scripts.
             m_Movement.m_PlayerNumber = m_PlayerNumber;

@@ -25,6 +25,7 @@ namespace Complete
         private float m_OriginalPitch;              // The pitch of the audio source at the start of the scene.
 
         //private bl_Joystick joystick;
+        public SP_Listener spListener;
         private float flashingTimer;
         private int flashingCounter;
 
@@ -73,14 +74,22 @@ namespace Complete
             //m_TurnInputValue = Input.GetAxis (m_TurnAxisName);
             //m_MovementInputValue = joystick.Vertical;
             //m_TurnInputValue = joystick.Horizontal;
+            PlayerDatagram? spPlayer = spListener.GetPlayerInfo(m_PlayerNumber);
+            if (spPlayer == null)
+            {
+                return;
+            }
+            float spMovementRawDistance = spPlayer.Value.Distance;
+            float spAngle = spPlayer.Value.Angle;
+
             //m_MovementInputValue = Vector2.SqrMagnitude(new Vector2(joystick.Horizontal, joystick.Vertical));
-            m_MovementInputValue = Vector2.SqrMagnitude(new Vector2(0, 0));
+            m_MovementInputValue = spMovementRawDistance;
             if (m_MovementInputValue > 14f)
             {
                 m_MovementInputValue = 14f;
             }
             //m_TurnInputValue = Mathf.Atan2(-joystick.Vertical, -joystick.Horizontal);
-            m_TurnInputValue = Mathf.Atan2(-0, -0);
+            m_TurnInputValue = spAngle;
 
             EngineAudio ();
 

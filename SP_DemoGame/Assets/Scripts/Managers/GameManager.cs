@@ -17,6 +17,7 @@ namespace Complete
         public GameObject joystick2;
         public GameObject joystick3;
         public GameObject joystick4;
+        public SP_Listener spListener;
 
         private int m_RoundNumber;                  // Which round the game is currently on.
         private int roundEndCountdown = 4;             // "3, 2, 1, FINISH!" right before the round ends
@@ -62,7 +63,7 @@ namespace Complete
                 m_Tanks[i].m_Instance =
                     Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
                 m_Tanks[i].m_PlayerNumber = i + 1;
-                m_Tanks[i].Setup();
+                m_Tanks[i].Setup(spListener);
             }
         }
 
